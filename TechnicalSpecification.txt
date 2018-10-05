@@ -60,8 +60,7 @@ Type: Signed 32-bit integer
 Details: This integer represents the type of the "Additional Information" section of the file, after the data portion. If the 
          value is: 
          0 - No Additional Information section is included after the data.
-         1 - Standard OECD formatted Additional Information section. See details on this format below in the section 4 of this 
-		     document.
+         1 - Standard OECD formatted Additional Information section. See details on this format below in section 4.
          2 - Additional Information section does not conform to the OECD stadard, but exists.
 
 ADDITIONAL INFORMATION SIZE
