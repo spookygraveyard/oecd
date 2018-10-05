@@ -13,7 +13,7 @@ Total length: 42 bytes
 IDENTIFIER
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [*][*][*][*][*][*][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-First 6 bytes
+Length: 6 bytes
 Type: Fixed value
 Hex: 20 2E 4F 45 43 44
 Dec: 32 46 79 69 67 68
@@ -23,7 +23,7 @@ Details: These bytes are to be used as an additional format check, to ensure the
 DATA SECTION LENGTH
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [ ][ ][ ][ ][ ][ ][*][*][*][*][*][*][*][*][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-Next 8 bytes
+Length: 8 bytes
 Type: Unsigned 64-bit integer
 Details: This unsigned integer represents the number of bytes in the data portion of the file. Note that this is the size of 
          the compressed region of data, and is different from the length of uncompressed data.
@@ -31,7 +31,7 @@ Details: This unsigned integer represents the number of bytes in the data portio
 NUMERIC FORMAT
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][*][*][*][*][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-Next 4 bytes
+Length: 4 bytes
 Type: Signed 32-bit integer
 Details: This integer represents the numeric representation of the data. If this value is 0 (zero), the data is stored as 
          integers. If the value is non-zero, the data is stored as IEEE floating points numbers.
@@ -47,7 +47,7 @@ Details: This integer represents the number of bytes used to store each individu
 NUMBER COUNT
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][*][*][*][*][*][*][*][*][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-Next 8 bytes
+Length: 8 bytes
 Type: Unsigned 64-bit integer
 Details: This unsigned integer represents the count of individual numbers in contained in the data section. Multiplying this 
          number with the previous 4 bytes (number of bytes per number) results in the uncompressed length of the data section.
@@ -55,7 +55,7 @@ Details: This unsigned integer represents the count of individual numbers in con
 ADDITIONAL INFORMATION FORMAT
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][*][*][*][*][ ][ ][ ][ ][ ][ ][ ][ ]
-Next 4 bytes
+Length: 4 bytes
 Type: Signed 32-bit integer
 Details: This integer represents the type of the "Additional Information" section of the file, after the data portion. If the 
          value is: 
@@ -66,16 +66,26 @@ Details: This integer represents the type of the "Additional Information" sectio
 ADDITIONAL INFORMATION SIZE
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][*][*][*][*][ ][ ][ ][ ]
-Next 4 bytes
+Length: 4 bytes
 Type: Unsigned 32-bit integer
 Details: This unsigned integer represents the length of the Additional Information section in bytes.
 
 CHANNEL COUNT
  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][*][*][*][*]
-Next 4 bytes
+Length: 4 bytes
 Type: Unsigned 32-bit integer
 Details: This unsigned integer represents the number of channels within the data.
 
 3. Data
 ==============================================================================================================================
+Data is stored as a compressed block of data. The length of the compressed data section is designed in the DATA SECTION LENGTH 
+portion of the header. The compression used is LZMA (Lempel–Ziv–Markov chain algorithm). This compression algorithm is used by
+the popular open-source file archiver 7-zip. The LZMA SDK, developed alongside 7-zip, is released into the public domain, and 
+contains reference implementations of compression and decompression in many popular languages. This compression is purely for
+reduction of on-disk file-size, and applications are expected to create and work with uncompressed data representations.
+
+3.1 Data Creation (Write)
+
+3.2 Data Read
+After the data has been decompressed.
