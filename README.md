@@ -10,7 +10,7 @@ OECD is designed to act as a new “common” format, suitable a wide variety of
 
 ## Design Goals
 +   *Small File Sizes*: 
-binary data storage, along with built in compression, ensures extremely small file sizes
+binary data storage ensures small file sizes
 +   *Future-Proof*: 
 support for 32-bit integers, and floating-point data storage will allow seamless integration with the next generation of eddy current instruments, and the flexibility of storing pre-calibrated data. 
 +   *Open*: 
