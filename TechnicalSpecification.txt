@@ -88,7 +88,43 @@ channels of Cartesian data.
 
 4.2 Standard OECD Formatted Additional Information
 ------------------------------------------------------------------------------------------------------------------------------
-complicated
+NOTE: THIS SECTION IS A WORK IN PROGRESS
+
+The standard OECD additional information section is a JSON-formatted text section that contains all the information needed to properly display the eddy current data.
+Descriptions of the fields of the additional information section are listed below, in order:
+probeType: (String) the general layout of the probe (ex. “array”, “bobbin”, “rotating”)
+detailedProbeType: (String) the full name of the probe used (ex. “3x12 HiRes X-Probe”)
+dataChannelCount: (Number) the number of channels that contain eddy current data (as opposed to encoders, or other instrument data)
+usesGroupedChannels: (Boolean) true if the channels should be grouped into distinct display groups. Typically, this is true when the probeType is “array”.
+displayGroups: (Array) list of displayGroup descriptions (NOTE: can be ignored if usesGroupedChannels is false)
+[
+displayGroup {
+dGIndex: (Number) unique sequential zero-indexed number. The order of in which to display the display groups
+dGName: (String) description of the display group which will be displayed to users
+dGChannelCount: (Number) the number of channels in this display group
+dGFrequency: (Number) the frequency of the display group in kHz
+dGChannels: (Array[Number]) the ordered list of channels contained in this displayGroup
+}
+]
+hasCalibration: (Boolean) true if the data has a default calibration included with the data
+calibration
+[
+calChannel {
+calChanNumber: (Number) the channel for which the calibration data is valid
+calAmplitude: (Number) the value to multiply the raw data with, to generate calibrated amplitude results (sometimes called the voltage conversion, as a term-of-art)
+calPhase: (Number) the value in degrees that the raw channel data should be rotated. Note that this follows the eddy-current angle convention, with horizontal left being zero degrees, and clockwise rotation being positively increasing 
+}
+] 
+encoderChannels: (Array) a list of the encoder channels and their details
+[
+encoderChannel {
+encoderChanNumber: (Number) the channel containing the encoder data
+encoderType: (String) what the encoder is measuring (ex. “pushwheel rotation”, “probe rotation”)
+encoderTrigger: (String) what signal feature represents an encoder tick (ex. “rising edge”, “pulse length”)
+encoderThreshold: (Number) the value above which indicates the useful encoder data  
+}
+]
+
 
 4.3 Non-Standard Additional Information
 ------------------------------------------------------------------------------------------------------------------------------
